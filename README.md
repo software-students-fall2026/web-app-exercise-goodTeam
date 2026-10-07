@@ -4,11 +4,11 @@ A little exercise to build a web application following an agile development proc
 
 ## Product vision statement
 
-See instructions. Delete this line and place the Product Vision Statement here.
+### Roommate Share is a mobile-friendly web app that lets roommates keep track of the food and household items in their home, see who owns what, and know at a glance which items are fair game to share.
 
 ## User stories
 
-See instructions. Delete this line and place a link to the user stories here.
+### [Link to user stories](https://github.com/software-students-fall2026/web-app-exercise-goodTeam/issues)
 
 ## Steps necessary to run the software
 
