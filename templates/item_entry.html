@@ -1,0 +1,32 @@
+{% extends 'base.html' %} 
+
+{% block container %}
+<div>
+    <form>
+        <input type="image" name="item_image">
+        <label>Item Image</label>
+
+        <input type="text" name="item_name">
+        <label>Item Name</label>
+
+        <input type="text" name="item_quantity">
+        <label>Quantity</label>
+
+        <input type="text" name="item_description">
+        <label>Description</label>
+
+        <input type="radio" name="tag" value="everyone">
+        <label>For Everyone</label>
+        <input type="radio" name="tag" value="me">
+        <label>For Me</label>
+
+        <button type="submit" action=""> Submit</button>
+    </form>
+</div>
+
+{% endblock %}
+
+{% block tools %}
+<button class="page-button"> Log Out </button>
+
+{% endblock %}
