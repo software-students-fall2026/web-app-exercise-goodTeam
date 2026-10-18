@@ -1,8 +1,17 @@
 {% extends 'base.html' %} 
 
 {% block container %}
-<h1>RoomShare</h1>
-<a href="{{ url_for('items') }}"><h2>Items</h2></a>
+
+    {% for entry in entries %}
+    <section class="vert-list">
+        <article>
+            <div class="feed-block">
+                <h1>{{entry.name}}</h1>
+                <h1>{{entry.description}}</h1>
+            </div>
+        </article>
+    </section> 
+    {% endfor %}
 
 {% endblock %}
 

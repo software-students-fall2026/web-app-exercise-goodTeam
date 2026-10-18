@@ -9,23 +9,27 @@
 </head>
 
 <body>
-	<header class="top-bar"> 
+	<header> 
 		<h1> RoomShare </h1> 
-		<div class="container">
-			<button class="page-button"> Feed </button>
-			<button class="page-button"> Lists </button>
-			<button class="page-button"> Profile </button>
+		<div class="hor-bar">
+			<a href="{{url_for('home')}}" class="page-button"> Feed </a>
+			<a href="{{url_for('items')}}" class="page-button"> Lists </a>
+			<a href="{{url_for('profile')}}"class="page-button"> Profile </a>
 		</div>
 	</header>
 
+	<div style="margin-top: 100px;"></div>
+
 	<main>{% block container %} {% endblock %}</main>
 
-	<footer class="bottom-bar"> 
-		<div class="container">
+	<div style="margin-bottom: 70px;"></div>
+
+	<footer> 
+		<div class="hor-bar">
 			{% block tools %}
 			{% endblock %}
 		</div>
-		<button class="add-button" type="submit"> </button>
+		<a href="{{url_for('item_entry')}}"class="add-button">  </a>
 	</footer>
 </body>
 

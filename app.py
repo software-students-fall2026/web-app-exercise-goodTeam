@@ -28,7 +28,16 @@ db = client[db_name]
 @app.route("/", methods=["GET"])
 def home():
     """Home page"""
-    return render_template("index.html")
+    testEntries = [
+            {"name": "person1", "description": "hello"},
+            {"name": "person2", "description": "bye"},
+            {"name": "person3", "description": "wow"},
+            {"name": "person3", "description": "wow"},
+            {"name": "person3", "description": "wow"},
+            {"name": "person3", "description": "wow"},
+            {"name": "person3", "description": "wow"}
+        ]
+    return render_template("index.html", entries=testEntries)
 
 
 @app.route("/items", methods=["GET"])
@@ -38,9 +47,38 @@ def items():
         {"name": "bananas", "price": 3},
         {"name": "apples", "price": 5},
         {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6},
+        {"name": "oranges", "price": 6}
     ]
-    return render_template("items.html", items=items)
+    return render_template("lists.html", items=items)
 
+@app.route("/profile", methods=["GET"])
+def profile():
+    """Profile page, shows user profile"""
+    user = {
+        "username": "Jack",
+        "room": "Dorm 1",
+        "biography": "cool guy"
+    }
+    return render_template("profile.html", user=user)
+
+@app.route("/item_entry", methods=["GET"])
+def item_entry():
+    return render_template("item_entry.html");
+
+@app.route("/create", methods=["POST"])
+def item_create():
+    #Put create item code here
+    #Follow fields from item_entry.html to get values
+    return
 
 if __name__ == "__main__":
     host = os.getenv("HOST") if os.getenv("HOST") is not None else "localhost"

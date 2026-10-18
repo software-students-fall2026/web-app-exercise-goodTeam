@@ -1,11 +1,18 @@
 {% extends 'base.html' %} {% block container %}
-<h1>Items</h1>
-<div class="item-list">
-    <ul>
+<div class="grid">
+    
         {% for item in items %}
-            <li>{{ item.name }},  ${{ item.price }}</li>
+            <div class="grid-block">
+                {{ item.name }},  ${{ item.price }}
+            </div>
         {% endfor %}
-    </ul>
+    
 </div>
-<a href="{{ url_for('home') }}"><h2>Home</h2></a>
+
+{% endblock %}
+
+{% block tools %}
+<button class="page-button"> Search </button>
+<button class="page-button"> Filter </button>
+
 {% endblock %}

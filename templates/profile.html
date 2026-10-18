@@ -1,0 +1,15 @@
+{% extends 'base.html' %} 
+
+{% block container %}
+<div>
+    <h3>{{user.username}}</h3>
+    <h3>{{user.room}}</h3>
+    <h3>{{user.biography}}</h3>
+</div>
+
+{% endblock %}
+
+{% block tools %}
+<button class="page-button"> Log Out </button>
+
+{% endblock %}
