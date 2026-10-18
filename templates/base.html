@@ -1,10 +1,32 @@
 <!doctype html>
 <html>
-	<head>
-		<title>RoomShare</title>
-		<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
-	</head>
-	<body>
-		<main>{% block container %} {% endblock %}</main>
-	</body>
+
+<head>
+	<title>RoomShare</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width">
+	<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+	<header class="top-bar"> 
+		<h1> RoomShare </h1> 
+		<div class="container">
+			<button class="page-button"> Feed </button>
+			<button class="page-button"> Lists </button>
+			<button class="page-button"> Profile </button>
+		</div>
+	</header>
+
+	<main>{% block container %} {% endblock %}</main>
+
+	<footer class="bottom-bar"> 
+		<div class="container">
+			{% block tools %}
+			{% endblock %}
+		</div>
+		<button class="add-button" type="submit"> </button>
+	</footer>
+</body>
+
 </html>
