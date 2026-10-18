@@ -13,12 +13,19 @@
 		<h1> RoomShare </h1> 
 		<div class="hor-bar">
 			<a href="{{url_for('home')}}" class="page-button"> Feed </a>
+			<a href="{{url_for('shared')}}" class="page-button"> Shared </a>
 			<a href="{{url_for('items')}}" class="page-button"> Lists </a>
 			<a href="{{url_for('profile')}}"class="page-button"> Profile </a>
 		</div>
 	</header>
 
 	<div style="margin-top: 100px;"></div>
+
+	{% with messages = get_flashed_messages() %}
+		{% for message in messages %}
+			<p>{{ message }}</p>
+		{% endfor %}
+	{% endwith %}
 
 	<main>{% block container %} {% endblock %}</main>
 
