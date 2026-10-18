@@ -2,21 +2,37 @@
 
 {% block container %}
 
+    <h2>{{ title }}</h2>
+
+    <form method="get" action="{{ url_for('home') }}">
+        <input type="text" name="search" placeholder="Search by name" value="{{ search }}">
+        <select name="category">
+            <option value="">All categories</option>
+            {% for c in categories %}
+                <option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit"> Go </button>
+    </form>
+
     {% for entry in entries %}
     <section class="vert-list">
         <article>
+            <a href="{{ url_for('item_detail', item_id=entry._id) }}">
             <div class="feed-block">
                 <h1>{{entry.name}}</h1>
-                <h1>{{entry.description}}</h1>
+                <h1>{{entry.category}} - {{entry.owner_name}} - {% if entry.shared %}shared{% else %}not shared{% endif %}</h1>
             </div>
+            </a>
         </article>
     </section> 
+    {% else %}
+        <p>No items yet.</p>
     {% endfor %}
 
 {% endblock %}
 
 {% block tools %}
-<button class="page-button"> Search </button>
-<button class="page-button"> Filter </button>
+<a href="{{ url_for('home') }}" class="page-button"> Clear </a>
 
 {% endblock %}

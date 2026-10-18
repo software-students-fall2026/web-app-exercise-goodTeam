@@ -2,31 +2,40 @@
 
 {% block container %}
 <div>
-    <form>
-        <input type="image" name="item_image">
-        <label>Item Image</label>
+    {% if item %}
+    <form method="post" action="{{ url_for('item_edit', item_id=item._id) }}">
+    {% else %}
+    <form method="post" action="{{ url_for('item_create') }}">
+    {% endif %}
 
-        <input type="text" name="item_name">
         <label>Item Name</label>
+        <input type="text" name="item_name" value="{{ item.name if item else '' }}" required>
 
-        <input type="text" name="item_quantity">
+        <label>Category</label>
+        <select name="item_category">
+            {% for c in categories %}
+                <option value="{{ c }}" {% if item and item.category == c %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+
         <label>Quantity</label>
+        <input type="text" name="item_quantity" value="{{ item.quantity if item else '1' }}">
 
-        <input type="text" name="item_description">
         <label>Description</label>
+        <input type="text" name="item_description" value="{{ item.description if item else '' }}">
 
-        <input type="radio" name="tag" value="everyone">
+        <input type="radio" name="tag" value="everyone" {% if item and item.shared %}checked{% endif %}>
         <label>For Everyone</label>
-        <input type="radio" name="tag" value="me">
+        <input type="radio" name="tag" value="me" {% if not item or not item.shared %}checked{% endif %}>
         <label>For Me</label>
 
-        <button type="submit" action=""> Submit</button>
+        <button type="submit"> Submit</button>
     </form>
 </div>
 
 {% endblock %}
 
 {% block tools %}
-<button class="page-button"> Log Out </button>
+<a href="{{ url_for('logout') }}" class="page-button"> Log Out </a>
 
 {% endblock %}
