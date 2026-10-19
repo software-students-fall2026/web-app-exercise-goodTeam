@@ -1,0 +1,19 @@
+{% extends 'base.html' %} 
+
+{% block container %}
+<h2>{{ group.name }} Members</h2>
+
+<section class="vert-list">
+    {% for member in members %}
+        <div class="feed-block">
+            <h1>{{ member.username }}</h1>
+        </div>
+    {% endfor %}
+</section>
+
+{% endblock %}
+
+{% block tools %}
+<a href="{{ url_for('items', group_id=group._id) }}" class="page-button"> Back to Items </a>
+
+{% endblock %}
