@@ -3,9 +3,9 @@
 {% block container %}
 <div>
     {% if item %}
-    <form method="post" action="{{ url_for('item_edit', group_id=group._id, item_id=item._id) }}">
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('item_edit', group_id=group._id, item_id=item._id) }}">
     {% else %}
-    <form method="post" action="{{ url_for('item_create', group_id=group._id) }}">
+    <form method="post" enctype="multipart/form-data" action="{{ url_for('item_create', group_id=group._id) }}">
     {% endif %}
 
         <label>Item Name</label>
@@ -23,6 +23,12 @@
 
         <label>Description</label>
         <input type="text" name="item_description" value="{{ item.description if item else '' }}">
+
+        <label>Photo (optional)</label>
+        {% if item and item.image %}
+            <img src="{{ url_for('static', filename='uploads/' + item.image) }}" class="item-photo">
+        {% endif %}
+        <input type="file" name="item_image" accept="image/*">
 
         <input type="radio" name="shared" value="true" id="shared-yes" {% if item and item.shared %}checked{% endif %}>
         <label for="shared-yes">For Everyone</label>

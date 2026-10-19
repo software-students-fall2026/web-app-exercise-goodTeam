@@ -1,5 +1,7 @@
 import os
 import sys
+import uuid
+from pathlib import Path
 
 from bson.objectid import ObjectId
 from dotenv import load_dotenv
@@ -14,6 +16,8 @@ from flask_login import (
 )
 from pymongo import MongoClient
 from werkzeug.security import check_password_hash, generate_password_hash
+
+ALLOWED_IMAGE_EXTS = [".png", ".jpg", ".jpeg", ".webp"]
 
 load_dotenv()
 
@@ -33,8 +37,12 @@ if db_name is None:
     print("DB_NAME not set in .env")
     sys.exit(1)
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder="static", static_url_path="/static")
 app.secret_key = app_secret
+app.config["MAX_CONTENT_LENGTH"] = 5 * 1024 * 1024
+
+UPLOAD_DIR = Path(app.static_folder) / "uploads"
+UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
 client = MongoClient(db_uri)
 
 db = client[db_name]
@@ -86,6 +94,11 @@ def get_group(group_id):
 #         abort(404)
 #     group = get_group(group_id)
 #     return []
+
+
+def remove_image(image_filename):
+    if image_filename:
+        (UPLOAD_DIR / image_filename).unlink(missing_ok=True)
 
 
 def assert_owner(item):
@@ -223,11 +236,23 @@ def item_create(group_id):
     assert_group_member(cur_group)
 
     if request.method == "POST":
+        req_img = request.files.get("item_image")
+        image_filename = ""
+        if req_img is not None and req_img.filename != "":
+            img_ext = Path(req_img.filename).suffix.lower()
+            if img_ext not in ALLOWED_IMAGE_EXTS:
+                flash("Image must be a .png, .jpg, .jpeg or .webp file")
+                return redirect(url_for("item_create", group_id=group_id))
+
+            image_filename = f"{uuid.uuid4().hex}{img_ext}"
+            req_img.save(UPLOAD_DIR / image_filename)
+
         new_item = {
             "name": request.form.get("item_name", "").strip(),
             "category": request.form.get("item_category", "Other"),
             "quantity": request.form.get("item_quantity", "1"),
             "description": request.form.get("item_description", ""),
+            "image": image_filename,
             "shared": request.form.get("shared") == "true",
             "owner_id": current_user.id,
             "owner_name": current_user.username,
@@ -253,6 +278,20 @@ def item_edit(group_id, item_id):
     assert_item_in_group(cur_group, item)
 
     if request.method == "POST":
+        req_img = request.files.get("item_image")
+        image_filename = item.get("image", "")
+        if req_img is not None and req_img.filename != "":
+            img_ext = Path(req_img.filename).suffix.lower()
+            if img_ext not in ALLOWED_IMAGE_EXTS:
+                flash("Image must be a .png, .jpg, .jpeg or .webp file")
+                return redirect(
+                    url_for("item_edit", group_id=group_id, item_id=item_id)
+                )
+
+            remove_image(image_filename)
+            image_filename = f"{uuid.uuid4().hex}{img_ext}"
+            req_img.save(UPLOAD_DIR / image_filename)
+
         db.items.update_one(
             {"_id": item["_id"]},
             {
@@ -261,6 +300,7 @@ def item_edit(group_id, item_id):
                     "category": request.form.get("item_category", item["category"]),
                     "quantity": request.form.get("item_quantity", item["quantity"]),
                     "description": request.form.get("item_description", ""),
+                    "image": image_filename,
                     "shared": request.form.get("shared") == "true",
                 }
             },
@@ -283,6 +323,7 @@ def item_delete(group_id, item_id):
 
     assert_item_in_group(cur_group, item)
 
+    remove_image(item.get("image", ""))
     db.items.delete_one({"_id": item["_id"]})
     return redirect(url_for("items", group_id=group_id))
 

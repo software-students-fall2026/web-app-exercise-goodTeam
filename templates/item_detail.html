@@ -3,6 +3,9 @@
 {% block container %}
 <div>
     <h2>{{ item.name }}</h2>
+    {% if item.image %}
+        <img src="{{ url_for('static', filename='uploads/' + item.image) }}" class="item-photo">
+    {% endif %}
     <p>Category: {{ item.category }}</p>
     <p>Quantity: {{ item.quantity }}</p>
     <p>Owner: {{ item.owner_name }}</p>
