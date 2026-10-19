@@ -1,11 +1,27 @@
 {% extends 'base.html' %} 
 
 {% block container %}
-<div>
-    <h2>Welcome to RoomShare</h2>
+<div class="home">
+    <h2>Share the house, skip the awkward questions</h2>
     <p>Keep track of what you and your roommates have, and what you're happy to share.</p>
-    <a href="{{ url_for('login') }}" class="page-button"> Log In </a>
-    <a href="{{ url_for('register') }}" class="page-button"> Sign Up </a>
+
+    <div class="hor-bar" style="justify-content: center;">
+        <a href="{{ url_for('register') }}" class="page-button"> Sign Up </a>
+        <a href="{{ url_for('login') }}" class="page-button"> Log In </a>
+    </div>
+
+    <div class="info">
+        <strong>Make a group</strong>
+        <p>Set up a space for your room, apartment or house and invite your roommates.</p>
+    </div>
+    <div class="info">
+        <strong>List what you own</strong>
+        <p>Add food, drinks, cleaning supplies and more, with quantities and notes.</p>
+    </div>
+    <div class="info">
+        <strong>Mark what's shareable</strong>
+        <p>Let everyone know what's free to use and what to ask about first.</p>
+    </div>
 </div>
 
 {% endblock %}
