@@ -16,7 +16,9 @@ See instructions. Delete this line and place instructions to download, configure
 
 ## Task boards
 
-See instructions. Delete this line and place a link to the task boards here.
+- [goodTeam - Sprint 1](https://github.com/users/UIYrj/projects/2)
+- [goodTeam - Sprint 2](https://github.com/users/UIYrj/projects/3)
+
 
 ## Steps necessary to run the software
 
