@@ -9,7 +9,7 @@
     {% endif %}
 
         <label>Item Name</label>
-        <input type="text" name="item_name" value="{{ item.name if item else '' }}" required>
+        <input type="text" name="item_name" required value="{{ item.name if item else '' }}" required>
 
         <label>Category</label>
         <select name="item_category">
@@ -19,14 +19,17 @@
         </select>
 
         <label>Quantity</label>
-        <input type="text" name="item_quantity" value="{{ item.quantity if item else '1' }}">
+        <input type="number" name="item_quantity" min="0" placeholder="1" required value="{{ item.quantity if item else '1' }}">
+
+        <label>Cost</label>
+        <input type="number" name="item_quantity" min="0.00" step="0.01" required value="{{ item.cost if item else '0' }}">
 
         <label>Description</label>
         <input type="text" name="item_description" value="{{ item.description if item else '' }}">
 
-        <input type="radio" name="tag" value="everyone" {% if item and item.shared %}checked{% endif %}>
+        <input type="radio" name="shared" value="true" {% if item and item.shared %}checked{% endif %}>
         <label>For Everyone</label>
-        <input type="radio" name="tag" value="me" {% if not item or not item.shared %}checked{% endif %}>
+        <input type="radio" name="shared" value="false" {% if not item or not item.shared %}checked{% endif %}>
         <label>For Me</label>
 
         <button type="submit"> Submit</button>
