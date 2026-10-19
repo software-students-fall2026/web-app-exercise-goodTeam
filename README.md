@@ -54,3 +54,17 @@ See instructions. Delete this line and place a link to the task boards here.
    ```bash
    python app.py
    ```
+
+## Seeding the database with sample data
+For testing, use this script to seed the db with sample data:
+```bash
+python seed.py
+```
+
+This creates:
+
+- Users `alice` and `bob`, both with the password `password`
+- Groups "Apartment 4B" (alice and bob) and "Beach House" (alice only)
+- Eight items spread across both groups, some shared and some not
+
+The script tags everything it inserts, so running it again replaces the old sample data without touching anything else in the database. To check access control, log in as `bob` and try opening a Beach House URL: you should get a 403.

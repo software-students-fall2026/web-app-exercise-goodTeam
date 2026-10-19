@@ -144,3 +144,38 @@ footer {
     margin-top: 12px;
     text-align: left;
 }
+
+.auth {
+    background-color: white;
+    border-radius: 16px;
+    padding: 24px;
+    margin: 0 16px;
+}
+
+.auth h2 {
+    margin-top: 0;
+}
+
+.auth form {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.auth input {
+    font-size: 16px;
+    padding: 10px;
+    border: 1px solid #e5d5c8;
+    border-radius: 10px;
+}
+
+.auth .page-button {
+    margin-top: 12px;
+}
+
+.flash {
+    background-color: #ffe1d6;
+    border-radius: 12px;
+    padding: 10px 16px;
+    margin: 0 16px 12px;
+}
