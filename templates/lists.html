@@ -1,13 +1,13 @@
 {% extends 'base.html' %} {% block container %}
-<h2>My Items</h2>
+<h2>{{ group.name }}</h2>
 <div class="grid">
     
         {% for item in items %}
-            <a href="{{ url_for('item_detail', item_id=item._id) }}" class="grid-block">
+            <a href="{{ url_for('item_detail', group_id=group._id, item_id=item._id) }}" class="grid-block">
                 {{ item.name }}, qty: {{ item.quantity }}
             </a>
         {% else %}
-            <p>You haven't added anything yet.</p>
+            <p>No items yet.</p>
         {% endfor %}
     
 </div>

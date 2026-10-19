@@ -10,15 +10,9 @@
     <p>{% if item.shared %}Shared - anyone can use it{% else %}Not shared - ask first{% endif %}</p>
 
     {% if item.owner_id == current_user.id %}
-        <a href="{{ url_for('item_edit', item_id=item._id) }}" class="page-button"> Edit </a>
+        <a href="{{ url_for('item_edit', group_id=item.parent_group_id, item_id=item._id) }}" class="page-button"> Edit </a>
 
-        <form method="post" action="{{ url_for('item_toggle_share', item_id=item._id) }}">
-            <button type="submit" class="page-button">
-                {% if item.shared %}Make private{% else %}Share it{% endif %}
-            </button>
-        </form>
-
-        <form method="post" action="{{ url_for('item_delete', item_id=item._id) }}">
+        <form method="post" action="{{ url_for('item_delete', group_id=item.parent_group_id, item_id=item._id) }}">
             <button type="submit" class="page-button"> Delete </button>
         </form>
     {% endif %}
