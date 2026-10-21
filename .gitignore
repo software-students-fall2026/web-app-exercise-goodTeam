@@ -146,3 +146,6 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+# user uploaded item photos
+static/uploads/
