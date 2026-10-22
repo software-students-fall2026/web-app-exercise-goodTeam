@@ -1,4 +1,5 @@
 import os
+import re
 import sys
 import uuid
 from pathlib import Path
@@ -211,10 +212,32 @@ def group_members(group_id):
 def items(group_id):
     cur_group = get_group(group_id)
     assert_group_member(cur_group)
-    my_items = list(
-        db.items.find({"parent_group_id": cur_group["_id"]}).sort("name", 1)
+    search = request.args.get("search", "").strip()
+    category = request.args.get("category", "")
+    view = request.args.get("view", "all")
+
+    query = {"parent_group_id": cur_group["_id"]}
+    if search:
+        query["name"] = {"$regex": re.escape(search), "$options": "i"}
+    if category in CATEGORIES:
+        query["category"] = category
+    if view == "shared":
+        query["shared"] = True
+    elif view == "mine":
+        query["owner_id"] = current_user.id
+    else:
+        view = "all"
+
+    my_items = list(db.items.find(query).sort("name", 1))
+    return render_template(
+        "lists.html",
+        group=cur_group,
+        items=my_items,
+        categories=CATEGORIES,
+        search=search,
+        category=category,
+        view=view,
     )
-    return render_template("lists.html", group=cur_group, items=my_items)
 
 
 @app.route("/group/<group_id>/item/<item_id>", methods=["GET"])

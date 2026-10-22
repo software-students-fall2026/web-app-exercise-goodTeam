@@ -193,3 +193,46 @@ footer {
     object-fit: cover;
     border-radius: 10px 10px 0 0;
 }
+
+.view-tabs {
+    display: flex;
+    gap: 4px;
+    margin: 0 16px 12px;
+}
+
+.view-tab {
+    color: #8a7468;
+    text-decoration: none;
+    padding: 8px 16px;
+    border-radius: 20px;
+    background-color: white;
+}
+
+.view-tab.active {
+    background-color: #ffe1d6;
+    color: #f26b4f;
+}
+
+.filter-bar {
+    display: flex;
+    gap: 8px;
+    margin: 0 16px 12px;
+}
+
+.filter-bar input,
+.filter-bar select {
+    font-size: 16px;
+    padding: 8px 10px;
+    border: 1px solid #e5d5c8;
+    border-radius: 10px;
+    min-width: 0;
+}
+
+.filter-bar input {
+    flex: 1;
+}
+
+.item-info {
+    color: white;
+    padding: 8px 12px;
+}
