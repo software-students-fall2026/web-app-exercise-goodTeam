@@ -1,0 +1,21 @@
+{% extends 'base.html' %} 
+
+{% block container %}
+<h2>My Groups</h2>
+
+<section class="vert-list">
+    {% for g in groups %}
+        <a href="{{ url_for('items', group_id=g._id) }}" class="feed-block">
+            <h1>{{ g.name }}</h1>
+        </a>
+    {% else %}
+        <p>You aren't in any groups yet.</p>
+    {% endfor %}
+</section>
+
+{% endblock %}
+
+{% block tools %}
+<a href="{{ url_for('logout') }}" class="page-button"> Log Out </a>
+
+{% endblock %}
