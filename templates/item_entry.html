@@ -1,7 +1,7 @@
 {% extends 'base.html' %} 
 
 {% block container %}
-<div>
+<div class="main-container">
     {% if item %}
     <form method="post" enctype="multipart/form-data" action="{{ url_for('item_edit', group_id=group._id, item_id=item._id) }}">
     {% else %}
@@ -30,12 +30,14 @@
         {% endif %}
         <input type="file" name="item_image" accept="image/*">
 
-        <input type="radio" name="shared" value="true" id="shared-yes" {% if item and item.shared %}checked{% endif %}>
-        <label for="shared-yes">For Everyone</label>
-        <input type="radio" name="shared" value="false" id="shared-no" {% if not item or not item.shared %}checked{% endif %}>
-        <label for="shared-no">For Me</label>
+        <div class="item-category">
+            <input type="radio" name="shared" value="true" id="shared-yes" {% if item and item.shared %}checked{% endif %}>
+            <label for="shared-yes">For Everyone</label>
+            <input type="radio" name="shared" value="false" id="shared-no" {% if not item or not item.shared %}checked{% endif %}>
+            <label for="shared-no">For Me</label>
+        </div>
 
-        <button type="submit"> Submit</button>
+        <button type="submit" class="page-button"> Submit</button>
     </form>
 </div>
 

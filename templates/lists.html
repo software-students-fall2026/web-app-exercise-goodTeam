@@ -1,46 +1,47 @@
 {% extends 'base.html' %} {% block container %}
-<h2>{{ group.name }}</h2>
-
-<div class="view-tabs">
-    {% for v, label in [('all', 'All'), ('shared', 'Shared'), ('mine', 'Mine')] %}
-        <a href="{{ url_for('items', group_id=group._id, view=v, search=search, category=category) }}" class="view-tab {% if view == v %}active{% endif %}">{{ label }}</a>
-    {% endfor %}
-</div>
-
-<form method="get" action="{{ url_for('items', group_id=group._id) }}" class="filter-bar">
-    <input type="hidden" name="view" value="{{ view }}">
-    <input type="text" name="search" placeholder="Search by name" value="{{ search }}">
-    <select name="category">
-        <option value="">All categories</option>
-        {% for c in categories %}
-            <option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>
+<div class="main-container">
+    <h2>{{ group.name }}</h2>
+    
+    <div class="view-tabs">
+        {% for v, label in [('all', 'All'), ('shared', 'Shared'), ('mine', 'Mine')] %}
+            <a href="{{ url_for('items', group_id=group._id, view=v, search=search, category=category) }}" class="view-tab {% if view == v %}active{% endif %}">{{ label }}</a>
         {% endfor %}
-    </select>
-    <button type="submit" class="page-button"> Go </button>
-</form>
-
-<div class="grid">
-
-        {% for item in items %}
-            <a href="{{ url_for('item_detail', group_id=group._id, item_id=item._id) }}" class="grid-block">
-                {% if item.image %}
-                    <img src="{{ url_for('static', filename='uploads/' + item.image) }}" class="item-thumb">
-                {% endif %}
-                <div class="item-info">
-                    <strong>{{ item.name }}</strong>, qty: {{ item.quantity }}
-                    <div>{{ item.owner_name }} - {% if item.shared %}shared{% else %}not shared{% endif %}</div>
-                </div>
-            </a>
-        {% else %}
-            {% if search or category or view != 'all' %}
-                <p>No items match.</p>
+    </div>
+    
+    <form method="get" action="{{ url_for('items', group_id=group._id) }}" class="filter-bar">
+        <input type="hidden" name="view" value="{{ view }}">
+        <input type="text" name="search" placeholder="Search by name" value="{{ search }}">
+        <select name="category">
+            <option value="">All categories</option>
+            {% for c in categories %}
+                <option value="{{ c }}" {% if c == category %}selected{% endif %}>{{ c }}</option>
+            {% endfor %}
+        </select>
+        <button type="submit" class="page-button"> Go </button>
+    </form>
+    
+    <div class="grid">
+    
+            {% for item in items %}
+                <a href="{{ url_for('item_detail', group_id=group._id, item_id=item._id) }}" class="grid-block">
+                    {% if item.image %}
+                        <img src="{{ url_for('static', filename='uploads/' + item.image) }}" class="item-thumb">
+                    {% endif %}
+                    <div class="item-info">
+                        <strong>{{ item.name }}</strong>, qty: {{ item.quantity }}
+                        <div>{{ item.owner_name }} - {% if item.shared %}shared{% else %}not shared{% endif %}</div>
+                    </div>
+                </a>
             {% else %}
-                <p>No items yet.</p>
-            {% endif %}
-        {% endfor %}
-
+                {% if search or category or view != 'all' %}
+                    <p>No items match.</p>
+                {% else %}
+                    <p>No items yet.</p>
+                {% endif %}
+            {% endfor %}
+            
+    </div>
 </div>
-
 {% endblock %}
 
 {% block tools %}

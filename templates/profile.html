@@ -1,9 +1,10 @@
 {% extends 'base.html' %} 
 
 {% block container %}
-<div>
-    <h3>{{user.username}}</h3>
-    <h3>{{user.biography}}</h3>
+<div class="main-container">
+    <h2>{{user.username}}</h2>
+    <h3>About Me</h3>
+    <p class="profile">{{user.biography}}</p>
 </div>
 
 {% endblock %}
