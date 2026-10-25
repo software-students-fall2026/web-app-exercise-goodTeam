@@ -60,6 +60,8 @@ class User(UserMixin):
     def __init__(self, user_doc):
         self.id = str(user_doc["_id"])
         self.username = user_doc["username"]
+        self.first_name = user_doc["first_name"]
+        self.last_name = user_doc["last_name"]
         self.biography = user_doc.get("biography", "")
         self.group_ids = user_doc.get("group_ids", [])
 

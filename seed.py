@@ -28,7 +28,9 @@ beach_id = db.groups.insert_one({"name": "Beach House", "seed": True}).inserted_
 
 alice_id = db.users.insert_one(
     {
-        "username": "alice",
+        "username": "coolAlice",
+        "first_name": "Alice",
+        "last_name": "Test",
         "password": generate_password_hash(PASSWORD),
         "biography": "Loves cooking, hates dishes.",
         "group_ids": [apartment_id, beach_id],
@@ -37,7 +39,9 @@ alice_id = db.users.insert_one(
 ).inserted_id
 bob_id = db.users.insert_one(
     {
-        "username": "bob",
+        "username": "coolBob",
+        "first_name": "Bob",
+        "last_name": "Test",
         "password": generate_password_hash(PASSWORD),
         "biography": "Will trade snacks for sleep.",
         "group_ids": [apartment_id],
