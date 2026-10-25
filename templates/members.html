@@ -1,16 +1,17 @@
 {% extends 'base.html' %} 
 
 {% block container %}
-<h2>{{ group.name }} Members</h2>
-
-<section class="vert-list">
-    {% for member in members %}
-        <div class="feed-block">
-            <h1>{{ member.username }}</h1>
-        </div>
-    {% endfor %}
-</section>
-
+<div class="main-container">
+    <h2>{{ group.name }} Members</h2>
+    
+    <section class="vert-list">
+        {% for member in members %}
+            <div class="feed-block">
+                <h1>{{ member.username }}</h1>
+            </div>
+        {% endfor %}
+    </section>
+</div>
 {% endblock %}
 
 {% block tools %}
