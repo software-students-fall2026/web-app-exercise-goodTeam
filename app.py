@@ -90,6 +90,19 @@ def get_group(group_id):
     return group
 
 
+def add_user_to_group(group_id):
+    cur_user_groups = current_user.group_ids
+    cur_user_groups.append(group_id)
+    db.users.update_one(
+        {"_id": ObjectId(current_user.id)},
+        {
+            "$push": {
+                "group_ids": ObjectId(group_id),
+            }
+        },
+    )
+
+
 # def get_users_in_group(group_id):
 #     if not ObjectId.is_valid(group_id):
 #         abort(404)
@@ -333,6 +346,20 @@ def item_edit(group_id, item_id):
     return render_template(
         "item_entry.html", group=cur_group, item=item, categories=CATEGORIES
     )
+
+
+@app.route("/group/create", methods=["GET", "POST"])
+@login_required
+def group_create():
+    if request.method == "POST":
+        name = request.form.get("group_name")
+        result = db.groups.insert_one({"name": name})
+
+        add_user_to_group(result.inserted_id)
+        cur_user_groups = list(db.groups.find({"_id": {"$in": current_user.group_ids}}))
+        return redirect(url_for("groups", groups=cur_user_groups))
+
+    return render_template("create_group.html")
 
 
 @app.route("/group/<group_id>/item/<item_id>/delete", methods=["POST"])
