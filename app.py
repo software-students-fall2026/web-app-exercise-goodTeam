@@ -92,13 +92,22 @@ def get_group(group_id):
     return group
 
 
+def get_invite(invite_id):
+    if not ObjectId.is_valid(invite_id):
+        abort(404)
+    invite = db.invites.find_one({"_id": ObjectId(invite_id)})
+    if invite is None:
+        abort(404)
+    return invite
+
+
 def add_user_to_group(group_id):
     cur_user_groups = current_user.group_ids
     cur_user_groups.append(group_id)
     db.users.update_one(
         {"_id": ObjectId(current_user.id)},
         {
-            "$push": {
+            "$addToSet": {
                 "group_ids": ObjectId(group_id),
             }
         },
@@ -142,6 +151,8 @@ def assert_item_in_group(group, item):
 def register():
     if request.method == "POST":
         username = request.form.get("username", "").strip()
+        first_name = request.form.get("first_name", "").strip()
+        last_name = request.form.get("last_name", "").strip()
         password = request.form.get("password", "")
 
         if username == "" or password == "":
@@ -154,6 +165,8 @@ def register():
 
         db.users.insert_one(
             {
+                "first_name": first_name,
+                "last_name": last_name,
                 "username": username,
                 "password": generate_password_hash(password),
                 "biography": "",
@@ -211,6 +224,69 @@ def home():
 def groups():
     cur_user_groups = list(db.groups.find({"_id": {"$in": current_user.group_ids}}))
     return render_template("groups.html", groups=cur_user_groups)
+
+
+@app.route("/group/<group_id>/invite", methods=["GET", "POST"])
+@login_required
+def group_invite_create(group_id):
+    cur_group = get_group(group_id)
+    assert_group_member(cur_group)
+    if request.method == "POST":
+        id_to_invite = request.form.get("user_id")
+        db.invites.insert_one(
+            {
+                "group_id": group_id,
+                "group_name": cur_group["name"],
+                "invited_user_id": ObjectId(id_to_invite),
+                "invited_by": current_user.username,
+            }
+        )
+        flash("User invited!")
+        return redirect(url_for("items", group_id=group_id))
+
+    search = request.args.get("search", "").strip()
+
+    users = list(
+        db.users.find(
+            {"username": {"$regex": re.escape(search), "$options": "i"}}
+        ).sort("username", 1)
+    )
+    return render_template(
+        "group_invite.html",
+        users=users,
+        group=cur_group,
+        search=search,
+    )
+
+
+@app.route("/invites", methods=["GET"])
+@login_required
+def invites():
+    invites = list(db.invites.find({"invited_user_id": ObjectId(current_user.id)}))
+    return render_template("invites.html", invites=invites)
+
+
+@app.route("/invite/<invite_id>/accept", methods=["POST"])
+@login_required
+def invite_accept(invite_id):
+    invite = get_invite(invite_id)
+    if str(invite["invited_user_id"]) != current_user.id:
+        abort(403)
+    add_user_to_group(invite["group_id"])
+    db.invites.delete_one({"_id": ObjectId(invite["_id"])})
+    flash("Invite Accepted!")
+    return redirect(url_for("groups"))
+
+
+@app.route("/invite/<invite_id>/deny", methods=["POST"])
+@login_required
+def invite_deny(invite_id):
+    invite = get_invite(invite_id)
+    if str(invite["invited_user_id"]) != current_user.id:
+        abort(403)
+    db.invites.delete_one({"_id": ObjectId(invite_id)})
+    flash("Invite denied")
+    return redirect(url_for("groups"))
 
 
 @app.route("/group/<group_id>/members", methods=["GET"])

@@ -1,0 +1,18 @@
+{% extends 'base.html' %} {% block container %}
+<div class="main-container">
+	{% for invite in invites %}
+	<div class="user-info">
+		<h2><strong>{{ invite.group_name }}</strong> (Invited by: {{invite.invited_by}})</h2>
+		<form method="post" action="{{ url_for('invite_accept', invite_id=invite._id) }}">
+			<button type="submit">Accept</button>
+		</form>
+		<form method="post" action="{{ url_for('invite_deny', invite_id=invite._id) }}">
+			<input type="hidden" name="invite_id" value="{{ invite._id }}" />
+			<button type="submit">Deny</button>
+		</form>
+	</div>
+	{% else %}
+	<h1>No invites!</h1>
+	{% endfor %}
+</div>
+{% endblock %}

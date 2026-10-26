@@ -12,6 +12,7 @@
         {% endfor %}
     </section>
 </div>
+<a href="{{ url_for('group_invite_create', group_id=group._id) }}" class="page-button"> Invite Member </a>
 {% endblock %}
 
 {% block tools %}
