@@ -28,7 +28,9 @@ beach_id = db.groups.insert_one({"name": "Beach House", "seed": True}).inserted_
 
 alice_id = db.users.insert_one(
     {
-        "username": "alice",
+        "username": "coolAlice",
+        "first_name": "Alice",
+        "last_name": "Test",
         "password": generate_password_hash(PASSWORD),
         "biography": "Loves cooking, hates dishes.",
         "group_ids": [apartment_id, beach_id],
@@ -37,7 +39,20 @@ alice_id = db.users.insert_one(
 ).inserted_id
 bob_id = db.users.insert_one(
     {
-        "username": "bob",
+        "username": "coolBob",
+        "first_name": "Bob",
+        "last_name": "Test",
+        "password": generate_password_hash(PASSWORD),
+        "biography": "Will trade snacks for sleep.",
+        "group_ids": [apartment_id],
+        "seed": True,
+    }
+).inserted_id
+john_id = db.users.insert_one(
+    {
+        "username": "coolJohn",
+        "first_name": "John",
+        "last_name": "Test",
         "password": generate_password_hash(PASSWORD),
         "biography": "Will trade snacks for sleep.",
         "group_ids": [apartment_id],
@@ -48,6 +63,7 @@ bob_id = db.users.insert_one(
 owners = {
     "alice": (str(alice_id), "alice"),
     "bob": (str(bob_id), "bob"),
+    "john": (str(john_id), "john"),
 }
 
 items = [
@@ -57,6 +73,7 @@ items = [
     ("bob", apartment_id, "Protein Bars", "Snacks", "6", "Please ask first", False),
     ("bob", apartment_id, "Paper Towels", "Cleaning", "4", "", True),
     ("bob", apartment_id, "Hot Sauce", "Food", "1", "Very spicy", False),
+    ("john", apartment_id, "Honey", "Food", "1", "SWEET", False),
     ("alice", beach_id, "Sunscreen", "Toiletries", "2", "SPF 50", True),
     ("alice", beach_id, "Chips", "Snacks", "5", "For the beach trip", False),
 ]
@@ -77,5 +94,5 @@ for owner, group_id, name, category, quantity, description, shared in items:
         }
     )
 
-print("Seeded 2 users, 2 groups and", len(items), "items.")
+print("Seeded 3 users, 2 groups and", len(items), "items.")
 print("Log in as alice or bob, password:", PASSWORD)

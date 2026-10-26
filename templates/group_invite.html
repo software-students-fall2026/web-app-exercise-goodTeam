@@ -1,0 +1,30 @@
+{% extends 'base.html' %} {% block container %}
+<div class="main-container">
+	<form
+		method="get"
+		action="{{ url_for('group_invite_create', group_id=group._id) }}"
+		class="filter-bar"
+	>
+		<input type="text" name="search" placeholder="Search by username" value="{{ search }}" />
+		<button type="submit" class="page-button">Go</button>
+	</form>
+
+	<div>
+		{% for user in users %}
+		<div class="user-info">
+			<h2><strong>{{ user.username }}</strong> ({{user.first_name}} {{user.last_name}})</h2>
+			<form method="post" action="{{ url_for('group_invite_create', group_id=group._id) }}">
+				<input type="hidden" name="user_id" value="{{ user._id }}" />
+				<button type="submit">Invite</button>
+			</form>
+		</div>
+		{% else %} {% if search %}
+		<p>No users match.</p>
+		{% endif %} {% endfor %}
+	</div>
+</div>
+{% endblock %} {% block tools %}
+<a href="{{ url_for('logout') }}" class="page-button"> Log Out </a>
+{% if search or category %}
+<a href="{{ url_for('items', group_id=group._id, view=view) }}" class="page-button"> Clear </a>
+{% endif %} {% endblock %}

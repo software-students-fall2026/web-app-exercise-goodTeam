@@ -7,11 +7,12 @@
     <section class="vert-list">
         {% for member in members %}
             <div class="feed-block">
-                <h1>{{ member.username }}</h1>
+                <h1>{{ member.first_name }} {{ member.last_name }}</h1>
             </div>
         {% endfor %}
     </section>
 </div>
+<a href="{{ url_for('group_invite_create', group_id=group._id) }}" class="page-button"> Invite Member </a>
 {% endblock %}
 
 {% block tools %}

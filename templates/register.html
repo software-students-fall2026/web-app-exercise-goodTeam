@@ -5,6 +5,12 @@
     <h2>Create your account</h2>
     <p>Sign up to start sharing with your roommates.</p>
     <form method="post" action="{{ url_for('register') }}">
+        <label>First Name</label>
+        <input type="text" name="first_name" required>
+
+        <label>Last Name</label>
+        <input type="text" name="last_name" required>
+
         <label>Username</label>
         <input type="text" name="username" required>
 
