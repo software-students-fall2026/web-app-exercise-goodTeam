@@ -12,14 +12,6 @@ A little exercise to build a web application following an agile development proc
 
 ## Steps necessary to run the software
 
-See instructions. Delete this line and place instructions to download, configure, and run the software here.
-
-## Task boards
-
-See instructions. Delete this line and place a link to the task boards here.
-
-## Steps necessary to run the software
-
 1. Clone the repo and enter it:
    ```bash
    git clone git@github.com:software-students-fall2026/web-app-exercise-goodTeam.git
@@ -68,3 +60,8 @@ This creates:
 - Eight items spread across both groups, some shared and some not
 
 The script tags everything it inserts, so running it again replaces the old sample data without touching anything else in the database. To check access control, log in as `bob` and try opening a Beach House URL: you should get a 403.
+
+## Task boards
+
+### [Link to Sprint 1 for goodteam](https://github.com/orgs/software-students-fall2026/projects/39/views/1)
+### [Link to Sprint 2 for goodteam](https://github.com/orgs/software-students-fall2026/projects/73/views/1)
