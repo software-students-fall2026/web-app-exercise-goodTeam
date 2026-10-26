@@ -17,7 +17,7 @@ if db_uri is None or db_name is None:
 db = MongoClient(db_uri)[db_name]
 
 PASSWORD = "password"
-USERNAMES = ["alice", "bob"]
+USERNAMES = ["coolAlice", "coolBob", "coolJohn"]
 
 db.users.delete_many({"$or": [{"seed": True}, {"username": {"$in": USERNAMES}}]})
 db.groups.delete_many({"seed": True})
@@ -61,9 +61,9 @@ john_id = db.users.insert_one(
 ).inserted_id
 
 owners = {
-    "alice": (str(alice_id), "alice"),
-    "bob": (str(bob_id), "bob"),
-    "john": (str(john_id), "john"),
+    "alice": (str(alice_id), "coolAlice"),
+    "bob": (str(bob_id), "coolBob"),
+    "john": (str(john_id), "coolJohn"),
 }
 
 items = [
@@ -95,4 +95,4 @@ for owner, group_id, name, category, quantity, description, shared in items:
     )
 
 print("Seeded 3 users, 2 groups and", len(items), "items.")
-print("Log in as alice or bob, password:", PASSWORD)
+print("Log in as coolAlice, coolBob or coolJohn, password:", PASSWORD)
